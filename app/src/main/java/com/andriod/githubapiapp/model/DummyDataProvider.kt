@@ -9,7 +9,7 @@ class DummyDataProvider : DataProvider() {
     private val searchResultsType: Type = object : TypeToken<List<User>>() {}.type
 
     override fun readData() {
-        handler.postDelayed({
+        dataHandler.postDelayed({
             _users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
             notifySubscribers()
         }, SLEEP_TIME)
