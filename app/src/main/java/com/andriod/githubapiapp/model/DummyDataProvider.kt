@@ -4,15 +4,16 @@ import com.andriod.githubapiapp.entity.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
+import com.andriod.githubapiapp.utils.postDelayed
 
 class DummyDataProvider : DataProvider() {
     private val searchResultsType: Type = object : TypeToken<List<User>>() {}.type
 
     override fun readData() {
-        dataHandler.postDelayed({
+        dataHandler.postDelayed(SLEEP_TIME){
             _users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
             notifySubscribers()
-        }, SLEEP_TIME)
+        }
     }
 
     companion object {
