@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.andriod.githubapiapp.MainActivity
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.utils.app
@@ -27,7 +26,6 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
             requireContext().app.router
         )
     }
-    private val activity by lazy { requireActivity() as MainActivity }
 
     override fun onCreateView(
         inflater: LayoutInflater,

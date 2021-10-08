@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            app.router.navigateTo(Screens.UserList())
+            app.router.replaceScreen(Screens.UserList())
         }
     }
 
