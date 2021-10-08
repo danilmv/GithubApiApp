@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import com.andriod.githubapiapp.MainActivity
 import com.andriod.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.utils.app
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -16,6 +18,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private val binding: FragmentUserDetailsBinding get() = _binding!!
 
     private val presenter by moxyPresenter { UserDetailsPresenter() }
+    private val activity by lazy { requireActivity() as MainActivity }
 
     override fun setState(state: UserDetailsContract.ViewState) {
         binding.root.children.forEach { it.isVisible = false }
@@ -26,6 +29,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     }
 
     override fun exit() {
+        requireContext().app.router.showUserList(activity)
     }
 
     override fun onCreateView(

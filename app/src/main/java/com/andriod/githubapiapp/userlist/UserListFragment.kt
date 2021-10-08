@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andriod.githubapiapp.MainActivity
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.utils.app
@@ -21,6 +22,7 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
     private val presenter by moxyPresenter { UserListPresenter(requireContext().app.dataProvider) }
+    private val activity by lazy { requireActivity() as MainActivity }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,5 +68,9 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
 
     override fun setData(users: List<User>) {
         adapter.setData(users)
+    }
+
+    override fun showUserDetails(user: User) {
+        requireContext().app.router.showUserDetails(activity, user)
     }
 }

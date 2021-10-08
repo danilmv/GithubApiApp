@@ -1,6 +1,5 @@
 package com.andriod.githubapiapp.userlist
 
-import android.util.Log
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.model.DataProvider
 
@@ -9,7 +8,7 @@ class UserListPresenter(private val dataProvider: DataProvider) :
 
     private var subscription = {}
     override fun onItemCLick(user: User) {
-        Log.d("@@@", "onItemCLick() called with: user = $user")
+        viewState.showUserDetails(user)
     }
 
     override fun onFirstViewAttach() {
