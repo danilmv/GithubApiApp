@@ -6,24 +6,37 @@ import androidx.recyclerview.widget.RecyclerView
 import com.andriod.githubapiapp.databinding.ItemUserBinding
 import com.andriod.githubapiapp.entity.User
 
-class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+class UserListAdapter(private val listener: Listener) :
+    RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
 
     private var users = mutableListOf<User>()
 
-    class ViewHolder(parent: ViewGroup) :
+    fun interface Listener {
+        fun onClick(user: User)
+    }
+
+    class ViewHolder(parent: ViewGroup, listener: Listener) :
         RecyclerView.ViewHolder(
             ItemUserBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ).root
         ) {
         private var binding: ItemUserBinding = ItemUserBinding.bind(itemView)
+        private lateinit var user: User
+
+        init {
+            binding.root.setOnClickListener {
+                listener.onClick(user)
+            }
+        }
 
         fun onBind(user: User) {
             binding.loginTextView.text = user.login
+            this.user = user
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent, listener)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.onBind(users[position])
 

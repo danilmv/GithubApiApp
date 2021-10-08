@@ -19,5 +19,6 @@ class UserListContract {
     }
 
     abstract class Presenter : MvpPresenter<View>() {
+        abstract fun onItemCLick(user: User)
     }
 }
