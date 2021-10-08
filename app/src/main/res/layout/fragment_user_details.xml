@@ -22,6 +22,7 @@
             android:id="@+id/avatar_image_view"
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
+            android:background="@color/teal_200"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_text_view" />
 

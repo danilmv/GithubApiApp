@@ -4,7 +4,6 @@ import com.andriod.githubapiapp.entity.User
 import moxy.MvpPresenter
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
-import moxy.viewstate.strategy.alias.Skip
 
 class UserListContract {
     enum class ViewState {
@@ -17,9 +16,6 @@ class UserListContract {
 
         @AddToEndSingle
         fun setData(users: List<User>)
-
-        @Skip
-        fun showUserDetails(user: User)
     }
 
     abstract class Presenter : MvpPresenter<View>() {

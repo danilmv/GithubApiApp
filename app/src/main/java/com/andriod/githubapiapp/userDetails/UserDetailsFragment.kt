@@ -17,7 +17,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding: FragmentUserDetailsBinding get() = _binding!!
 
-    private val presenter by moxyPresenter { UserDetailsPresenter() }
+    private val presenter by moxyPresenter { UserDetailsPresenter(requireContext().app.router) }
     private val activity by lazy { requireActivity() as MainActivity }
 
     override fun setState(state: UserDetailsContract.ViewState) {
@@ -26,10 +26,6 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
             UserDetailsContract.ViewState.IDLE -> binding.container.isVisible = true
             UserDetailsContract.ViewState.LOADING -> binding.progressBar.isVisible = true
         }
-    }
-
-    override fun exit() {
-        requireContext().app.router.showUserList(activity)
     }
 
     override fun onCreateView(

@@ -1,11 +1,14 @@
 package com.andriod.githubapiapp.userDetails
 
-class UserDetailsPresenter: UserDetailsContract.Presenter() {
+import com.andriod.githubapiapp.Screens
+import com.github.terrakok.cicerone.Router
+
+class UserDetailsPresenter(private val router: Router) : UserDetailsContract.Presenter() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
     }
 
     override fun onClose() {
-        viewState.exit()
+        router.navigateTo(Screens.UserList())
     }
 }
