@@ -6,6 +6,6 @@ class UserDetailsPresenter: UserDetailsContract.Presenter() {
     }
 
     override fun onClose() {
-        TODO("Not yet implemented")
+        viewState.exit()
     }
 }

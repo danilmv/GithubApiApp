@@ -9,10 +9,13 @@ import androidx.core.view.isVisible
 import com.andriod.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.andriod.githubapiapp.entity.User
 import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
 
 class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding: FragmentUserDetailsBinding get() = _binding!!
+
+    private val presenter by moxyPresenter { UserDetailsPresenter() }
 
     override fun setState(state: UserDetailsContract.ViewState) {
         binding.root.children.forEach { it.isVisible = false }
@@ -20,6 +23,9 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
             UserDetailsContract.ViewState.IDLE -> binding.container.isVisible = true
             UserDetailsContract.ViewState.LOADING -> binding.progressBar.isVisible = true
         }
+    }
+
+    override fun exit() {
     }
 
     override fun onCreateView(
@@ -38,6 +44,8 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
         user?.let {
             binding.loginTextView.text = it.login
         }
+
+        binding.buttonClose.setOnClickListener { presenter.onClose() }
     }
 
     override fun onDestroy() {
