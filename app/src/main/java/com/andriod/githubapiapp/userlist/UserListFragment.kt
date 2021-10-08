@@ -8,18 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.utils.app
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
 
-class UserListFragment : Fragment(), UserListContract.View {
+class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
     private val binding: FragmentUserListBinding get() = _binding!!
 
     private val adapter by lazy { UserListAdapter() }
-    private val presenter by lazy { UserListPresenter(requireContext().app.dataProvider) }
+    private val presenter by moxyPresenter { UserListPresenter(requireContext().app.dataProvider) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +39,6 @@ class UserListFragment : Fragment(), UserListContract.View {
             recyclerView.layoutManager = LinearLayoutManager(view.context)
             recyclerView.adapter = adapter
         }
-        presenter.onAttach(this)
     }
 
     override fun onAttach(context: Context) {
@@ -49,7 +49,6 @@ class UserListFragment : Fragment(), UserListContract.View {
     override fun onDestroy() {
         Log.d(TAG, "onDestroy() called")
         super.onDestroy()
-        presenter.odDetach()
         _binding = null
     }
 
