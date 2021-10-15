@@ -1,19 +1,23 @@
 package com.andriod.githubapiapp.model
 
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.utils.postDelayed
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import java.lang.reflect.Type
-import com.andriod.githubapiapp.utils.postDelayed
 
 class DummyDataProvider : DataProvider() {
     private val searchResultsType: Type = object : TypeToken<List<User>>() {}.type
+    private val behaviorSubject = BehaviorSubject.create<List<User>>()
 
-    override fun readData() {
-        dataHandler.postDelayed(SLEEP_TIME){
-            _users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
-            notifySubscribers()
+    override fun readData(): Observable<List<User>> {
+        dataHandler.postDelayed(SLEEP_TIME) {
+            users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
+            behaviorSubject.onNext(users)
         }
+        return behaviorSubject
     }
 
     companion object {
