@@ -1,10 +1,11 @@
 package com.andriod.githubapiapp.eventbus
 
+import com.andriod.githubapiapp.entity.User
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class EventBus {
-    open class Event
+object EventBus {
+    open class Event(val user: User)
 
     private val _eventObservable = PublishSubject.create<Event>()
     val eventObservable: Observable<Event> get() = _eventObservable

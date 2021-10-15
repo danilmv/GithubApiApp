@@ -16,7 +16,8 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding: FragmentUserDetailsBinding get() = _binding!!
 
-    private val presenter by moxyPresenter { UserDetailsPresenter(requireContext().app.router) }
+    private val user by lazy { arguments?.getParcelable<User>(EXTRA_KEY_USER) }
+    private val presenter by moxyPresenter { UserDetailsPresenter(requireContext().app.router, user!!) }
 
     override fun setState(state: UserDetailsContract.ViewState) {
         binding.root.children.forEach { it.isVisible = false }
@@ -38,16 +39,18 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = arguments?.getParcelable<User>(EXTRA_KEY_USER)
+
         user?.let {
             binding.loginTextView.text = it.login
         }
 
         binding.buttonClose.setOnClickListener { presenter.onClose() }
+        binding.buttonLike.setOnClickListener { presenter.onLike() }
+        binding.buttonDislike.setOnClickListener { presenter.onDislike() }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

@@ -1,16 +1,38 @@
 package com.andriod.githubapiapp.model
 
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.eventbus.EventBus
+import com.andriod.githubapiapp.utils.EventDislike
+import com.andriod.githubapiapp.utils.EventLike
 import com.andriod.githubapiapp.utils.postDelayed
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.lang.reflect.Type
 
 class DummyDataProvider : DataProvider() {
     private val searchResultsType: Type = object : TypeToken<List<User>>() {}.type
     private val behaviorSubject = BehaviorSubject.create<List<User>>()
+
+    init {
+        EventBus.eventObservable
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { event ->
+                    when (event) {
+                        is EventLike -> {
+                            event.user.rating++
+                        }
+                        is EventDislike -> {
+                            event.user.rating--
+                        }
+                    }
+                    behaviorSubject.onNext(users)
+                },
+                {})
+    }
 
     override fun readData(): Observable<List<User>> {
         dataHandler.postDelayed(SLEEP_TIME) {
