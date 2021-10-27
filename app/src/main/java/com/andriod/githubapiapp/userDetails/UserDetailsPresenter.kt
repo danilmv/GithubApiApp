@@ -1,6 +1,7 @@
 package com.andriod.githubapiapp.userDetails
 
 import com.andriod.githubapiapp.Screens
+import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.model.DataProvider
 import com.github.terrakok.cicerone.Router
@@ -40,5 +41,9 @@ class UserDetailsPresenter(
     override fun onClose() {
         router.backTo(Screens.UserList())
         disposable = null
+    }
+
+    override fun onItemCLick(repo: Repo) {
+//        router.navigateTo(Screens.)
     }
 }

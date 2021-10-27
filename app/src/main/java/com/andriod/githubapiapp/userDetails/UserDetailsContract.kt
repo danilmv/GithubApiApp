@@ -24,5 +24,6 @@ class UserDetailsContract {
 
     abstract class Presenter() : MvpPresenter<View>() {
         abstract fun onClose()
+        abstract fun onItemCLick(repo: Repo)
     }
 }

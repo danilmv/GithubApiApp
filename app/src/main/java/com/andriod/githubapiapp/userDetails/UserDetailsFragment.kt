@@ -28,7 +28,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
         )
     }
 
-    private val adapter by lazy { RepoListAdapter() }
+    private val adapter by lazy { RepoListAdapter { repo -> presenter.onItemCLick(repo) } }
 
     override fun setState(state: UserDetailsContract.ViewState) {
         binding.root.children.forEach { it.isVisible = false }
