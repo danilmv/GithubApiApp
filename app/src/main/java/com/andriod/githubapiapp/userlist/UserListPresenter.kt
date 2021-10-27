@@ -27,7 +27,7 @@ class UserListPresenter(
         viewState.setState(UserListContract.ViewState.LOADING)
 
         disposable = dataProvider.readData()
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe({ users ->
                 viewState.setState(UserListContract.ViewState.IDLE)
                 viewState.setData(users)
