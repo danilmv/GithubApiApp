@@ -61,6 +61,6 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     }
 
     override fun showError(throwable: Throwable) {
-        Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "We have an error: ${throwable.message}", Toast.LENGTH_LONG).show()
     }
 }
