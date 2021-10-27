@@ -6,6 +6,7 @@ import com.andriod.githubapiapp.model.DataProvider
 import com.github.terrakok.cicerone.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class UserListPresenter(
     private val dataProvider: DataProvider,
@@ -27,11 +28,15 @@ class UserListPresenter(
         viewState.setState(UserListContract.ViewState.LOADING)
 
         disposable = dataProvider.readData()
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ users ->
                 viewState.setState(UserListContract.ViewState.IDLE)
                 viewState.setData(users)
-            }, { throwable -> viewState.showError(throwable) })
+            }, { throwable ->
+                viewState.setState(UserListContract.ViewState.IDLE)
+                viewState.showError(throwable)
+            })
 
     }
 

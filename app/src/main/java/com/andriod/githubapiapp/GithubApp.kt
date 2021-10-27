@@ -1,13 +1,13 @@
 package com.andriod.githubapiapp
 
 import android.app.Application
+import android.util.Log
 import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.GithubApi
 import com.andriod.githubapiapp.model.RetrofitDataProvider
-import com.facebook.stetho.Stetho
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.github.terrakok.cicerone.Cicerone
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,7 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class GithubApp : Application() {
     private val okHttp by lazy {
         OkHttpClient.Builder()
-            .addNetworkInterceptor(StethoInterceptor ())
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
             .build()
     }
 
@@ -34,7 +36,7 @@ class GithubApp : Application() {
     val navigatorHolder get() = cicerone.getNavigatorHolder()
 
     override fun onCreate() {
+        Log.d("@@@", "onCreate() called")
         super.onCreate()
-        Stetho.initializeWithDefaults(this)
     }
 }
