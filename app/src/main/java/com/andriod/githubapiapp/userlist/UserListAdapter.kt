@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andriod.githubapiapp.databinding.ItemUserBinding
 import com.andriod.githubapiapp.entity.User
+import com.bumptech.glide.Glide
 
 class UserListAdapter(private val listener: Listener) :
     RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
@@ -34,6 +35,11 @@ class UserListAdapter(private val listener: Listener) :
             binding.loginTextView.text = user.login
             if (user.rating != 0) binding.ratingTextView.text = "(${user.rating})"
             this.user = user
+
+            Glide.with(binding.root)
+                .load(user.avatar)
+                .centerCrop()
+                .into(binding.avatarImageView)
         }
     }
 

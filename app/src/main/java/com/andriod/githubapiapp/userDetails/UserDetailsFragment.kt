@@ -12,6 +12,7 @@ import com.andriod.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.utils.app
+import com.bumptech.glide.Glide
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -61,6 +62,10 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
 
         user?.let {
             binding.loginTextView.text = it.login
+            Glide.with(binding.root)
+                .load(it.avatar)
+                .centerCrop()
+                .into(binding.avatarImageView)
         }
         binding.buttonClose.setOnClickListener { presenter.onClose() }
 
