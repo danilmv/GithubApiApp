@@ -44,6 +44,6 @@ class UserDetailsPresenter(
     }
 
     override fun onItemCLick(repo: Repo) {
-//        router.navigateTo(Screens.)
+        router.navigateTo(Screens.RepoDetails(repo))
     }
 }
