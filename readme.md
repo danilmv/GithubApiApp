@@ -16,3 +16,11 @@ app changes: like on EventBus
 ### Preview
 <img src="printscreens/lesson4_1.png" width="32%">
 <img src="printscreens/lesson4_2.png" width="32%">
+
+Lesson5: Retrofit (with RxJava)
+app changes: data from server through retrofit+rx, list of user repos and simple repo details
+
+### Preview
+<img src="printscreens/lesson5_1.png" width="32%">
+<img src="printscreens/lesson5_2.png" width="32%">
+<img src="printscreens/lesson5_3.png" width="32%">
