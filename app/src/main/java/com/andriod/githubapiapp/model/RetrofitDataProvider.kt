@@ -9,4 +9,8 @@ class RetrofitDataProvider(private val service: GithubApi) : DataProvider() {
 
     override fun readUserRepos(user: User): Observable<List<Repo>> =
         service.getUserRepos(user.login).toObservable()
+
+    override fun saveUser(user: User) {}
+    override fun saveRepo(repo: Repo) {}
+
 }

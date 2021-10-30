@@ -47,6 +47,10 @@ class DummyDataProvider : DataProvider() {
         TODO("Not yet implemented")
     }
 
+    override fun saveUser(user: User) {}
+
+    override fun saveRepo(repo: Repo) {}
+
     companion object {
         const val EXAMPLE_JSON = "[\n" +
                 "  { \"login\": \"mojombo\",\n" +

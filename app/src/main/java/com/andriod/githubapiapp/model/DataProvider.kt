@@ -17,8 +17,8 @@ abstract class DataProvider {
 
     abstract fun readUserRepos(user: User): Observable<List<Repo>>
 
-    abstract fun saveUser(user: User): Completable
-    abstract fun saveRepo(repo: Repo): Completable
+    abstract fun saveUser(user: User)
+    abstract fun saveRepo(repo: Repo)
 
     companion object {
         const val SLEEP_TIME = 1000L
