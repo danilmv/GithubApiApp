@@ -35,7 +35,7 @@ class DummyDataProvider : DataProvider() {
                 {})
     }
 
-    override fun readData(): Observable<List<User>> {
+    override fun readUsers(): Observable<List<User>> {
         dataHandler.postDelayed(SLEEP_TIME) {
             users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
             behaviorSubject.onNext(users)

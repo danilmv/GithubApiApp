@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 abstract class DataProvider {
@@ -12,9 +13,12 @@ abstract class DataProvider {
     private val handlerThread = HandlerThread("handlerThread").apply { isDaemon = true;start() }
     protected val dataHandler = Handler(handlerThread.looper)
 
-    abstract fun readData():Observable<List<User>>
+    abstract fun readUsers():Observable<List<User>>
 
     abstract fun readUserRepos(user: User): Observable<List<Repo>>
+
+    abstract fun saveUser(user: User): Completable
+    abstract fun saveRepo(repo: Repo): Completable
 
     companion object {
         const val SLEEP_TIME = 1000L
