@@ -8,6 +8,7 @@ import com.andriod.githubapiapp.utils.EventLike
 import com.andriod.githubapiapp.utils.postDelayed
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -47,9 +48,13 @@ class DummyDataProvider : DataProvider() {
         TODO("Not yet implemented")
     }
 
-    override fun saveUser(user: User) {}
+    override fun saveUsers(users: List<User>):Completable {
+        TODO("Not yet implemented")
+    }
 
-    override fun saveRepo(repo: Repo) {}
+    override fun saveRepos(repos: List<Repo>):Completable {
+        TODO("Not yet implemented")
+    }
 
     companion object {
         const val EXAMPLE_JSON = "[\n" +

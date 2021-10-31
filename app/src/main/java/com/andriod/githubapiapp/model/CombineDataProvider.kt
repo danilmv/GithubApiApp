@@ -8,17 +8,23 @@ class CombineDataProvider(
     private val webDataProvider: DataProvider,
     private val localDataProvider: DataProvider
 ) : DataProvider() {
-    override fun readUsers(): Observable<List<User>> = webDataProvider.readUsers()
+    override fun readUsers(): Observable<List<User>> =
+        localDataProvider.readUsers()
+            .mergeWith(webDataProvider.readUsers()
+                .flatMap {
+                    localDataProvider.saveUsers(it).andThen(Observable.just(it))
+                })
 
     override fun readUserRepos(user: User): Observable<List<Repo>> =
-        webDataProvider.readUserRepos(user)
+        localDataProvider.readUserRepos(user)
+            .mergeWith(webDataProvider.readUserRepos(user)
+                .flatMap {
+                    localDataProvider.saveRepos(it).andThen(Observable.just(it))
+                })
+
+    override fun saveUsers(users: List<User>) = localDataProvider.saveUsers(users)
 
 
-    override fun saveUser(user: User) {
-        localDataProvider.saveUser(user)
-    }
+    override fun saveRepos(repos: List<Repo>) = localDataProvider.saveRepos(repos)
 
-    override fun saveRepo(repo: Repo) {
-        localDataProvider.saveRepo(repo)
-    }
 }

@@ -3,6 +3,10 @@ package com.andriod.githubapiapp
 import android.app.Application
 import androidx.room.Room
 import com.andriod.githubapiapp.model.*
+import com.andriod.githubapiapp.model.retrofit.GithubApi
+import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
+import com.andriod.githubapiapp.model.room.GithubDatabase
+import com.andriod.githubapiapp.model.room.RoomDataProvider
 import com.github.terrakok.cicerone.Cicerone
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

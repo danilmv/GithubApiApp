@@ -11,12 +11,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class User(
     @PrimaryKey
+    @ColumnInfo(name = "login")
     val login: String,
     @ColumnInfo(name = "avatar")
     @SerializedName("avatar_url")
     val avatar: String,
-    @ColumnInfo(name = "repos")
     @SerializedName("repos_url")
-    val repos: String,
+    val repos: String?,
     var rating: Int = 0,
 ) : Parcelable

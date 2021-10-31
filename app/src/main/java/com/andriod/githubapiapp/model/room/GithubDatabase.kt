@@ -1,4 +1,4 @@
-package com.andriod.githubapiapp.model
+package com.andriod.githubapiapp.model.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

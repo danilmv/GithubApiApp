@@ -13,12 +13,12 @@ abstract class DataProvider {
     private val handlerThread = HandlerThread("handlerThread").apply { isDaemon = true;start() }
     protected val dataHandler = Handler(handlerThread.looper)
 
-    abstract fun readUsers():Observable<List<User>>
+    abstract fun readUsers(): Observable<List<User>>
 
     abstract fun readUserRepos(user: User): Observable<List<Repo>>
 
-    abstract fun saveUser(user: User)
-    abstract fun saveRepo(repo: Repo)
+    abstract fun saveUsers(users: List<User>): Completable
+    abstract fun saveRepos(repos: List<Repo>): Completable
 
     companion object {
         const val SLEEP_TIME = 1000L
