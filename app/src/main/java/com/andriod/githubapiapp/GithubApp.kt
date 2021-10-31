@@ -2,9 +2,8 @@ package com.andriod.githubapiapp
 
 import android.app.Application
 import android.util.Log
-import com.andriod.githubapiapp.model.DataProvider
-import com.andriod.githubapiapp.model.GithubApi
-import com.andriod.githubapiapp.model.RetrofitDataProvider
+import androidx.room.Room
+import com.andriod.githubapiapp.model.*
 import com.github.terrakok.cicerone.Cicerone
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,6 +29,17 @@ class GithubApp : Application() {
             .build()
     }
     private val service: GithubApi by lazy { retrofit.create(GithubApi::class.java) }
+    private val webDataProvider: DataProvider by lazy { RetrofitDataProvider(service) }
+
+    private val dataBase: GithubDatabase by lazy {
+        Room.databaseBuilder(
+            this,
+            GithubDatabase::class.java,
+            "github.db"
+        ).build()
+    }
+    private val localDataProvider: DataProvider by lazy { RoomDataProvider(dataBase) }
+
     val dataProvider: DataProvider by lazy { RetrofitDataProvider(service) }
     private val cicerone = Cicerone.create()
     val router get() = cicerone.router
