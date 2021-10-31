@@ -1,7 +1,6 @@
 package com.andriod.githubapiapp
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Room
 import com.andriod.githubapiapp.model.*
 import com.github.terrakok.cicerone.Cicerone
@@ -40,13 +39,17 @@ class GithubApp : Application() {
     }
     private val localDataProvider: DataProvider by lazy { RoomDataProvider(dataBase) }
 
-    val dataProvider: DataProvider by lazy { RetrofitDataProvider(service) }
+    val dataProvider: DataProvider by lazy {
+        CombineDataProvider(
+            webDataProvider,
+            localDataProvider
+        )
+    }
     private val cicerone = Cicerone.create()
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
 
     override fun onCreate() {
-        Log.d("@@@", "onCreate() called")
         super.onCreate()
     }
 }
