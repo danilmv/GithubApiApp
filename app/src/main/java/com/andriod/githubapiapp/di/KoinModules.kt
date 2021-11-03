@@ -6,9 +6,11 @@ import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
 import com.andriod.githubapiapp.model.room.GithubDatabase
+import com.github.terrakok.cicerone.BaseRouter
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.Router
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.android.get
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -58,4 +60,10 @@ val combineModule = module {
             get(named("local"))
         )
     }
+}
+
+val routerModule = module {
+    single { Cicerone.create() }
+    single { get<Cicerone<BaseRouter>>().router as Router }
+    single { get<Cicerone<BaseRouter>>().getNavigatorHolder() }
 }
