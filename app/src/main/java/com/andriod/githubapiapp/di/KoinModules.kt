@@ -6,7 +6,6 @@ import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
 import com.andriod.githubapiapp.model.room.GithubDatabase
-import com.github.terrakok.cicerone.BaseRouter
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import okhttp3.OkHttpClient
@@ -64,6 +63,6 @@ val combineModule = module {
 
 val routerModule = module {
     single { Cicerone.create() }
-    single { get<Cicerone<BaseRouter>>().router as Router }
-    single { get<Cicerone<BaseRouter>>().getNavigatorHolder() }
+    single { get<Cicerone<Router>>().router }
+    single { get<Cicerone<Router>>().getNavigatorHolder() }
 }
