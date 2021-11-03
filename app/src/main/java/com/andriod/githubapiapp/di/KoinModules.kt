@@ -1,8 +1,10 @@
 package com.andriod.githubapiapp.di
 
+import androidx.room.Room
 import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
+import com.andriod.githubapiapp.model.room.GithubDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
@@ -33,4 +35,16 @@ val retrofitModule = module {
     }
 
     single<DataProvider>(named("web")) { RetrofitDataProvider(get()) }
+}
+
+val roomModule = module {
+    single<GithubDatabase> {
+        Room.databaseBuilder(
+            get(),
+            GithubDatabase::class.java,
+            "github.db"
+        ).build()
+    }
+
+    single<DataProvider>(named("local")) { RetrofitDataProvider(get()) }
 }
