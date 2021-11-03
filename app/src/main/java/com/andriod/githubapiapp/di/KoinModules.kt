@@ -1,12 +1,14 @@
 package com.andriod.githubapiapp.di
 
 import androidx.room.Room
+import com.andriod.githubapiapp.model.CombineDataProvider
 import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
 import com.andriod.githubapiapp.model.room.GithubDatabase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.android.get
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -47,4 +49,13 @@ val roomModule = module {
     }
 
     single<DataProvider>(named("local")) { RetrofitDataProvider(get()) }
+}
+
+val combineModule = module {
+    single<DataProvider> {
+        CombineDataProvider(
+            get(named("web")),
+            get(named("local"))
+        )
+    }
 }

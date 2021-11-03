@@ -13,6 +13,7 @@ import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.utils.app
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
 class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
@@ -21,7 +22,7 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
     private val presenter by moxyPresenter {
         UserListPresenter(
-            requireContext().app.dataProvider,
+            get(),
             requireContext().app.router
         )
     }
@@ -61,6 +62,10 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     }
 
     override fun showError(throwable: Throwable) {
-        Toast.makeText(requireContext(), "We have an error: ${throwable.message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            requireContext(),
+            "We have an error: ${throwable.message}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }

@@ -15,6 +15,7 @@ import com.andriod.githubapiapp.utils.app
 import com.bumptech.glide.Glide
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
 class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
@@ -25,7 +26,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
         UserDetailsPresenter(
             requireContext().app.router,
             user!!,
-            requireContext().app.dataProvider
+            get()
         )
     }
 
