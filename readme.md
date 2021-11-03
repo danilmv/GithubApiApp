@@ -28,3 +28,8 @@ app changes: data from server through retrofit+rx, list of user repos and simple
 Lesson6: Room (with RxJava)
 app changes: data cached in Room using Rx
 
+Lesson7: Dependency Injection: Koin
+app changes: dependecy injected using Koin
+
+
+
