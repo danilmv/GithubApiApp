@@ -9,6 +9,7 @@ import org.koin.core.context.startKoin
 class GithubApp : Application() {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.builder()
+            .roomModule(RoomModule(this))
             .build()
     }
 
@@ -18,7 +19,7 @@ class GithubApp : Application() {
 
         startKoin {
             androidContext(this@GithubApp)
-            modules(roomModule, combineModule)
+            modules(combineModule)
         }
     }
 

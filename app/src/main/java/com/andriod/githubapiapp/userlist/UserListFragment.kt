@@ -30,7 +30,7 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     lateinit var router: Router
 
     @Inject
-    @Named("web")
+    @Named("local")
     lateinit var dataProvider: DataProvider
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }

@@ -32,7 +32,7 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     lateinit var router: Router
 
     @Inject
-    @Named("web")
+    @Named("local")
     lateinit var dataProvider: DataProvider
 
     private val user by lazy { arguments?.getParcelable<User>(EXTRA_KEY_USER) }

@@ -1,9 +1,13 @@
 package com.andriod.githubapiapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.andriod.githubapiapp.MainActivity
 import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
+import com.andriod.githubapiapp.model.room.GithubDatabase
+import com.andriod.githubapiapp.model.room.RoomDataProvider
 import com.andriod.githubapiapp.userDetails.UserDetailsFragment
 import com.andriod.githubapiapp.userlist.UserListFragment
 import com.github.terrakok.cicerone.Cicerone
@@ -67,7 +71,29 @@ class RetrofitModule {
     fun provideDataProvider(githubApi: GithubApi): DataProvider = RetrofitDataProvider(githubApi)
 }
 
-@Component(modules = [RouterModule::class, RetrofitModule::class])
+@Module
+class RoomModule(private val context: Context) {
+    @Provides
+    @Singleton
+    fun provideGithubDatabase(context: Context): GithubDatabase =
+        Room.databaseBuilder(
+            context,
+            GithubDatabase::class.java,
+            "github.db"
+        ).build()
+
+    @Provides
+    @Singleton
+    @Named("local")
+    fun provideDataProvider(githubDatabase: GithubDatabase): DataProvider =
+        RoomDataProvider(githubDatabase)
+
+    @Provides
+    fun provideContext(): Context = context
+}
+
+
+@Component(modules = [RouterModule::class, RetrofitModule::class, RoomModule::class])
 @Singleton
 interface AppComponent {
     fun inject(activity: MainActivity)
