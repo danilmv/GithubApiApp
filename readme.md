@@ -31,5 +31,9 @@ app changes: data cached in Room using Rx
 Lesson7: Dependency Injection: Koin
 app changes: dependecy injected using Koin
 
+Lesson8: Dependency Injection: Dagger
+app changes: migrating to Dagger from Koin
+
+
 
 
