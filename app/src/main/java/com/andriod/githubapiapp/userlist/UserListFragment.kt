@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.andriod.githubapiapp.GithubApp
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.model.DataProvider
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import org.koin.android.ext.android.get
 import javax.inject.Inject
+import javax.inject.Named
 
 class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
@@ -28,10 +29,14 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     @Inject
     lateinit var router: Router
 
+    @Inject
+    @Named("web")
+    lateinit var dataProvider: DataProvider
+
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
     private val presenter by moxyPresenter {
         UserListPresenter(
-            get(),
+            dataProvider,
             router
         )
     }

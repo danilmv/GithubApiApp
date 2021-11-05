@@ -18,7 +18,7 @@ class GithubApp : Application() {
 
         startKoin {
             androidContext(this@GithubApp)
-            modules(retrofitModule, roomModule, combineModule)
+            modules(roomModule, combineModule)
         }
     }
 

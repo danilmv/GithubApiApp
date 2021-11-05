@@ -12,12 +12,13 @@ import com.andriod.githubapiapp.GithubApp
 import com.andriod.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.model.DataProvider
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import org.koin.android.ext.android.get
 import javax.inject.Inject
+import javax.inject.Named
 
 class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
@@ -30,12 +31,16 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     @Inject
     lateinit var router: Router
 
+    @Inject
+    @Named("web")
+    lateinit var dataProvider: DataProvider
+
     private val user by lazy { arguments?.getParcelable<User>(EXTRA_KEY_USER) }
     private val presenter by moxyPresenter {
         UserDetailsPresenter(
             router,
             user!!,
-            get()
+            dataProvider
         )
     }
 
