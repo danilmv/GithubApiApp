@@ -3,6 +3,7 @@ package com.andriod.githubapiapp.di
 import android.content.Context
 import androidx.room.Room
 import com.andriod.githubapiapp.MainActivity
+import com.andriod.githubapiapp.model.CombineDataProvider
 import com.andriod.githubapiapp.model.DataProvider
 import com.andriod.githubapiapp.model.retrofit.GithubApi
 import com.andriod.githubapiapp.model.retrofit.RetrofitDataProvider
@@ -92,8 +93,19 @@ class RoomModule(private val context: Context) {
     fun provideContext(): Context = context
 }
 
+@Module
+class CombineModule {
+    @Provides
+    @Singleton
+    fun provideDataProvider(
+        @Named("web") webDataProvider: DataProvider,
+        @Named("local") localDataProvider: DataProvider
+    ): DataProvider =
+        CombineDataProvider(webDataProvider, localDataProvider)
+}
 
-@Component(modules = [RouterModule::class, RetrofitModule::class, RoomModule::class])
+
+@Component(modules = [RouterModule::class, RetrofitModule::class, RoomModule::class, CombineModule::class])
 @Singleton
 interface AppComponent {
     fun inject(activity: MainActivity)

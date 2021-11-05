@@ -1,10 +1,9 @@
 package com.andriod.githubapiapp
 
 import android.app.Application
-import com.andriod.githubapiapp.di.*
-import com.andriod.githubapiapp.model.*
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import com.andriod.githubapiapp.di.AppComponent
+import com.andriod.githubapiapp.di.DaggerAppComponent
+import com.andriod.githubapiapp.di.RoomModule
 
 class GithubApp : Application() {
     val appComponent: AppComponent by lazy {
@@ -16,11 +15,6 @@ class GithubApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-
-        startKoin {
-            androidContext(this@GithubApp)
-            modules(combineModule)
-        }
     }
 
     companion object {

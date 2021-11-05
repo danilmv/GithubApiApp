@@ -16,7 +16,6 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
-import javax.inject.Named
 
 class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
@@ -30,7 +29,6 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     lateinit var router: Router
 
     @Inject
-    @Named("local")
     lateinit var dataProvider: DataProvider
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }

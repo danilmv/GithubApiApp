@@ -18,7 +18,6 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
-import javax.inject.Named
 
 class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
@@ -32,7 +31,6 @@ class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     lateinit var router: Router
 
     @Inject
-    @Named("local")
     lateinit var dataProvider: DataProvider
 
     private val user by lazy { arguments?.getParcelable<User>(EXTRA_KEY_USER) }
