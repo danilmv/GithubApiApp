@@ -8,18 +8,25 @@ import android.widget.Toast
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andriod.githubapiapp.GithubApp
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
     private val binding: FragmentUserListBinding get() = _binding!!
-    private val router: Router by inject()
+
+    init {
+        GithubApp.instance.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var router: Router
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
     private val presenter by moxyPresenter {
