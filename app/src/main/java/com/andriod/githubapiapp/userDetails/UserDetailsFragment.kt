@@ -8,27 +8,37 @@ import android.widget.Toast
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.andriod.githubapiapp.GithubApp
 import com.andriod.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.model.DataProvider
 import com.bumptech.glide.Glide
 import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 class UserDetailsFragment : MvpAppCompatFragment(), UserDetailsContract.View {
     private var _binding: FragmentUserDetailsBinding? = null
     private val binding: FragmentUserDetailsBinding get() = _binding!!
-    private val router: Router by inject()
+
+    init {
+        GithubApp.instance.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var dataProvider: DataProvider
 
     private val user by lazy { arguments?.getParcelable<User>(EXTRA_KEY_USER) }
     private val presenter by moxyPresenter {
         UserDetailsPresenter(
             router,
             user!!,
-            get()
+            dataProvider
         )
     }
 
