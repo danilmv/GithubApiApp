@@ -32,6 +32,7 @@ class UserListAdapter(private val listener: Listener) :
 
         fun onBind(user: User) {
             binding.loginTextView.text = user.login
+            if (user.rating != 0) binding.ratingTextView.text = "(${user.rating})"
             this.user = user
         }
     }

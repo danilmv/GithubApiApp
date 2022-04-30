@@ -14,7 +14,9 @@ class UserDetailsContract {
         fun setState(state: ViewState)
     }
 
-    abstract class Presenter : MvpPresenter<View>() {
+    abstract class Presenter() : MvpPresenter<View>() {
         abstract fun onClose()
+        abstract fun onLike()
+        abstract fun onDislike()
     }
 }

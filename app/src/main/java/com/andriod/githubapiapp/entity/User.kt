@@ -10,5 +10,6 @@ data class User(
     @SerializedName("avatar_url")
     val avatar: String,
     @SerializedName("repos_url")
-    val repos: String
-):Parcelable
+    val repos: String,
+    var rating: Int = 0,
+) : Parcelable

@@ -9,3 +9,10 @@ App: GithubApiApp: list of users & simple details screen with Moxy&Cicerone
 
 Lesson3: RxJava
 app changes: dataProvider on RxJava
+
+Lesson4: EventBus (on RxJava)
+app changes: like on EventBus
+
+### Preview
+<img src="printscreens/lesson4_1.png" width="32%">
+<img src="printscreens/lesson4_2.png" width="32%">
