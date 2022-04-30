@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GithubApiApp</string>
+    <string name="button_close">close</string>
 </resources>

@@ -20,7 +20,12 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private val binding: FragmentUserListBinding get() = _binding!!
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
-    private val presenter by moxyPresenter { UserListPresenter(requireContext().app.dataProvider) }
+    private val presenter by moxyPresenter {
+        UserListPresenter(
+            requireContext().app.dataProvider,
+            requireContext().app.router
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
