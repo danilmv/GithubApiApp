@@ -4,13 +4,20 @@ import com.andriod.githubapiapp.Screens
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.model.DataProvider
 import com.github.terrakok.cicerone.Router
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 class UserListPresenter(
     private val dataProvider: DataProvider,
     private val router: Router
 ) : UserListContract.Presenter() {
 
-    private var subscription = {}
+    private var disposable: Disposable? = null
+        set(value) {
+            field?.takeIf { !it.isDisposed }?.dispose()
+            field = value
+        }
+
     override fun onItemCLick(user: User) {
         router.navigateTo(Screens.UserDetails(user))
     }
@@ -18,18 +25,18 @@ class UserListPresenter(
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.setState(UserListContract.ViewState.LOADING)
-        dataProvider.apply {
-            subscription = {
+
+        disposable = dataProvider.readData()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ users ->
                 viewState.setState(UserListContract.ViewState.IDLE)
                 viewState.setData(users)
-            }
-            subscribe(subscription)
-            readData()
-        }
+            }, { throwable -> viewState.showError(throwable) })
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dataProvider.unSubscribe(subscription)
+        disposable = null
     }
 }
