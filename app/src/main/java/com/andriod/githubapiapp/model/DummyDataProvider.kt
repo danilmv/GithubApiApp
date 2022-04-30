@@ -8,6 +8,7 @@ import com.andriod.githubapiapp.utils.EventLike
 import com.andriod.githubapiapp.utils.postDelayed
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -35,7 +36,7 @@ class DummyDataProvider : DataProvider() {
                 {})
     }
 
-    override fun readData(): Observable<List<User>> {
+    override fun readUsers(): Observable<List<User>> {
         dataHandler.postDelayed(SLEEP_TIME) {
             users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
             behaviorSubject.onNext(users)
@@ -44,6 +45,14 @@ class DummyDataProvider : DataProvider() {
     }
 
     override fun readUserRepos(user: User): Observable<List<Repo>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveUsers(users: List<User>):Completable {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveRepos(repos: List<Repo>):Completable {
         TODO("Not yet implemented")
     }
 

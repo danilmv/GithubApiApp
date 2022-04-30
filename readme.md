@@ -24,3 +24,7 @@ app changes: data from server through retrofit+rx, list of user repos and simple
 <img src="printscreens/lesson5_1.png" width="32%">
 <img src="printscreens/lesson5_2.png" width="32%">
 <img src="printscreens/lesson5_3.png" width="32%">
+
+Lesson6: Room (with RxJava)
+app changes: data cached in Room using Rx
+

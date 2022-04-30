@@ -29,7 +29,7 @@ class RepoDetailsFragment : Fragment(), RepoDetailsContract.View {
 
         repo?.let {
             binding.textViewRepoName.text = it.name
-            binding.textViewForks.text = "forks: ${it.forks_count}"
+            binding.textViewForks.text = "forks: ${it.forksCount}"
         }
     }
 
