@@ -10,19 +10,22 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.andriod.githubapiapp.databinding.FragmentUserListBinding
 import com.andriod.githubapiapp.entity.User
-import com.andriod.githubapiapp.utils.app
+import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     private var _binding: FragmentUserListBinding? = null
     private val binding: FragmentUserListBinding get() = _binding!!
+    private val router: Router by inject()
 
     private val adapter by lazy { UserListAdapter { user -> presenter.onItemCLick(user) } }
     private val presenter by moxyPresenter {
         UserListPresenter(
-            requireContext().app.dataProvider,
-            requireContext().app.router
+            get(),
+            router
         )
     }
 
@@ -61,6 +64,10 @@ class UserListFragment : MvpAppCompatFragment(), UserListContract.View {
     }
 
     override fun showError(throwable: Throwable) {
-        Toast.makeText(requireContext(), "We have an error: ${throwable.message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            requireContext(),
+            "We have an error: ${throwable.message}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
