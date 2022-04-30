@@ -1,5 +1,6 @@
 package com.andriod.githubapiapp.model
 
+import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.eventbus.EventBus
 import com.andriod.githubapiapp.utils.EventDislike
@@ -40,6 +41,10 @@ class DummyDataProvider : DataProvider() {
             behaviorSubject.onNext(users)
         }
         return behaviorSubject
+    }
+
+    override fun readUserRepos(user: User): Observable<List<Repo>> {
+        TODO("Not yet implemented")
     }
 
     companion object {
