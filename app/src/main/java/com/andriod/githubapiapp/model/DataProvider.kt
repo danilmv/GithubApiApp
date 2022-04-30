@@ -2,41 +2,25 @@ package com.andriod.githubapiapp.model
 
 import android.os.Handler
 import android.os.HandlerThread
-import android.os.Looper
-import android.util.Log
+import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
+import io.reactivex.Completable
+import io.reactivex.Observable
 
 abstract class DataProvider {
-    protected val _users = mutableListOf<User>()
-    val users: List<User>
-        get() = _users
+    protected val users = mutableListOf<User>()
 
     private val handlerThread = HandlerThread("handlerThread").apply { isDaemon = true;start() }
     protected val dataHandler = Handler(handlerThread.looper)
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val subscribers = HashSet<SubscriberType>()
+    abstract fun readUsers(): Observable<List<User>>
 
-    abstract fun readData()
-    fun subscribe(subscriber: SubscriberType) {
-        subscribers.add(subscriber)
-        Log.d(TAG, "subscribe() called with: subscriber = $subscriber numOfSubscribers: ${subscribers.size}")
-    }
+    abstract fun readUserRepos(user: User): Observable<List<Repo>>
 
-    fun unSubscribe(subscriber: SubscriberType) {
-        subscribers.remove(subscriber)
-        Log.d(TAG, "unSubscribe() called with: subscriber = $subscriber numOfSubscribers: ${subscribers.size}")
-    }
-
-    protected fun notifySubscribers() {
-        Log.d(TAG, "notifySubscribers() called numOfSubscribers: ${subscribers.size}")
-        subscribers.forEach { handler.post(it) }
-    }
+    abstract fun saveUsers(users: List<User>): Completable
+    abstract fun saveRepos(repos: List<Repo>): Completable
 
     companion object {
         const val SLEEP_TIME = 1000L
-        const val TAG = "@@DataProvider"
     }
 }
-
-typealias SubscriberType = ()->Unit

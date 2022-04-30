@@ -1,19 +1,59 @@
 package com.andriod.githubapiapp.model
 
+import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
+import com.andriod.githubapiapp.eventbus.EventBus
+import com.andriod.githubapiapp.utils.EventDislike
+import com.andriod.githubapiapp.utils.EventLike
+import com.andriod.githubapiapp.utils.postDelayed
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.subjects.BehaviorSubject
 import java.lang.reflect.Type
-import com.andriod.githubapiapp.utils.postDelayed
 
 class DummyDataProvider : DataProvider() {
     private val searchResultsType: Type = object : TypeToken<List<User>>() {}.type
+    private val behaviorSubject = BehaviorSubject.create<List<User>>()
 
-    override fun readData() {
-        dataHandler.postDelayed(SLEEP_TIME){
-            _users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
-            notifySubscribers()
+    init {
+        EventBus.eventObservable
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { event ->
+                    when (event) {
+                        is EventLike -> {
+                            event.user.rating++
+                        }
+                        is EventDislike -> {
+                            event.user.rating--
+                        }
+                    }
+                    behaviorSubject.onNext(users)
+                },
+                {})
+    }
+
+    override fun readUsers(): Observable<List<User>> {
+        dataHandler.postDelayed(SLEEP_TIME) {
+            users.addAll(Gson().fromJson(EXAMPLE_JSON, searchResultsType))
+            behaviorSubject.onNext(users)
         }
+        return behaviorSubject
+    }
+
+    override fun readUserRepos(user: User): Observable<List<Repo>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveUsers(users: List<User>):Completable {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveRepos(repos: List<Repo>):Completable {
+        TODO("Not yet implemented")
     }
 
     companion object {

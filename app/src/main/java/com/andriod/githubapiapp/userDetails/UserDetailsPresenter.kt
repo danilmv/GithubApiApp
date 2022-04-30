@@ -1,6 +1,7 @@
-package com.andriod.githubapiapp.userlist
+package com.andriod.githubapiapp.userDetails
 
 import com.andriod.githubapiapp.Screens
+import com.andriod.githubapiapp.entity.Repo
 import com.andriod.githubapiapp.entity.User
 import com.andriod.githubapiapp.model.DataProvider
 import com.github.terrakok.cicerone.Router
@@ -8,10 +9,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class UserListPresenter(
-    private val dataProvider: DataProvider,
-    private val router: Router
-) : UserListContract.Presenter() {
+class UserDetailsPresenter(
+    private val router: Router,
+    private val user: User,
+    private val dataProvider: DataProvider
+) :
+    UserDetailsContract.Presenter() {
 
     private var disposable: Disposable? = null
         set(value) {
@@ -19,29 +22,28 @@ class UserListPresenter(
             field = value
         }
 
-    override fun onItemCLick(user: User) {
-        router.navigateTo(Screens.UserDetails(user))
-    }
-
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.setState(UserListContract.ViewState.LOADING)
+        viewState.setState(UserDetailsContract.ViewState.LOADING)
 
-        disposable = dataProvider.readUsers()
+        disposable = dataProvider.readUserRepos(user)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ users ->
-                viewState.setState(UserListContract.ViewState.IDLE)
-                viewState.setData(users)
+            .subscribe({ repos ->
+                viewState.setState(UserDetailsContract.ViewState.IDLE)
+                viewState.setData(repos)
             }, { throwable ->
-                viewState.setState(UserListContract.ViewState.IDLE)
+                viewState.setState(UserDetailsContract.ViewState.IDLE)
                 viewState.showError(throwable)
             })
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onClose() {
+        router.backTo(Screens.UserList())
         disposable = null
+    }
+
+    override fun onItemCLick(repo: Repo) {
+        router.navigateTo(Screens.RepoDetails(repo))
     }
 }

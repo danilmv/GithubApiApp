@@ -3,4 +3,6 @@
     <dimen name="avatar_size">100dp</dimen>
     <dimen name="margin">8dp</dimen>
     <dimen name="login_text_size">20sp</dimen>
+    <dimen name="user_details_login_text_size">40sp</dimen>
+    <dimen name="repo_item_radius">8dp</dimen>
 </resources>
